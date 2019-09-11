@@ -1,4 +1,4 @@
-# tacs-frontend2
+# tacs-frontend
 
 ## Project setup
 ```
