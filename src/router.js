@@ -14,10 +14,14 @@ export default new Router({
       component: Home
     },
     {
+      path: "/home",
+      name: "home",
+      component: Home
+    },
+    {
       path: "/signup",
       name: "signup",
-      component: () =>
-        import("./views/Signup.vue")
+      component: () => import("./views/Signup.vue")
     }
   ]
 });
