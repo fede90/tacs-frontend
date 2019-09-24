@@ -98,7 +98,11 @@ export default {
       api
         .signup(this.form)
         .then(response => {
+          console.log(response.headers.authorization);
+          console.log(response.data);          
           this.response = response.data;
+          window.localStorage.setItem('_token', response.headers.authorization);
+          window.location.reload();
         })
         .catch(e => {
           this.errors.push(e);

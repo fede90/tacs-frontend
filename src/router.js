@@ -4,7 +4,7 @@ import Home from "./views/Home.vue";
 
 Vue.use(Router);
 
-export default new Router({
+const router = new Router({
   mode: "history",
   base: process.env.BASE_URL,
   routes: [
@@ -16,12 +16,40 @@ export default new Router({
     {
       path: "/home",
       name: "home",
-      component: Home
+      component: Home,
+      meta: { Auth: true, title: "Home" }
     },
     {
       path: "/signup",
       name: "signup",
-      component: () => import("./views/Signup.vue")
+      component: () => import("./views/Signup.vue"),
+      meta: { Auth: false, title: "Login" },
+      beforeEnter: (to, from, next) => {
+        // Si existe un token, la sesion existe, por lo cual, redirecciona a home
+        // if (window.localStorage.getItem('_token')) {
+        if (window.localStorage.getItem("_token")) {
+          next({ path: "/" });
+        } else {
+          next();
+        }
+      }
+    },
+    {
+      path: "/signout",
+      name: "signout",
+      component: () => import("./views/Signout.vue"),
+      meta: { Auth: true, title: "Log Out" }
     }
   ]
 });
+
+router.beforeEach((to, from, next) => {
+  document.title = to.meta.title;
+  if (to.meta.Auth && !window.localStorage.getItem("_token")) {
+    next({ path: "/login" });
+  } else {
+    next();
+  }
+});
+
+export default router;
