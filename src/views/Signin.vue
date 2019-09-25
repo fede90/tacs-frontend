@@ -1,7 +1,7 @@
 
 <template>
  
-    <div class="signin">
+    <div class="signin justify-content-center">
         <div class="container container-fluid">
             <div class="row">
                 <div class="col-12 col-xl-6 col-lg-6  user-img "><img src="@/assets/union-githubs.png"></div>
@@ -33,13 +33,15 @@
                                     <div class="input-group-prepend">
                                         <span class="input-group-text"><i>&#128273;</i></span> <!--Dibujo llave-->
                                     </div>
-                                    <input type="password" class="form-control" placeholder="password">
+                                        <input type="password" class="form-control" placeholder="password">
                                     </div>
                                     <div class="row align-items-center remember">
-                                    <input type="checkbox">Remember Me
+                                     <input type="checkbox">Remember Me
                                     </div>
+
+                                    <!--Boton login-->
                                     <div class="form-group">
-                                    <input type="submit" value="Login" class="btn float-right login_btn">
+                                        <input type="submit" value="Login" class="btn float-right login_btn">
                                     </div>
                                 </form>
                                 </div>
@@ -47,7 +49,7 @@
                                 <!--Pie del Sign in (Para que se cree una cuenta si no la tiene)-->
                                 <div class="card-footer">
                                     <div class="d-flex justify-content-center links">
-                                        Don't have an account?<a href="#">Sign Up</a>
+                                        Don't have an account?<router-link to="/signup">Sign Up</router-link>
                                     </div>
                                 </div>
                             </div>
@@ -59,7 +61,7 @@
     
             </div>
 
-    </div>
+         </div>
     </div>
 </template>
 
@@ -68,7 +70,7 @@
 
 
 
-<style signin>
+<style>
 .signin .container{
     padding-top: 90px;
 }
