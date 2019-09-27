@@ -3,7 +3,7 @@
     <h1>Signup</h1>
     <div>
       <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-          <b-form-input
+         
         <b-form-group id="input-group-2" label="Nombre:" label-for="input-2">
           <b-form-input
             id="input-2"
@@ -80,12 +80,12 @@ export default {
 
   methods: {
     responseUser() {
+      var vm = this;
       api
         .signup(this.form)
         .then(response => {
-          this.response = response.data;
-          console.log(response);
-          //this.$cookie.set('token',res.data.token);
+          vm.response = response.data;
+          vm.$cookies.set("token",response.headers.authorization);
         })
         .catch(e => {
           this.errors.push(e);
