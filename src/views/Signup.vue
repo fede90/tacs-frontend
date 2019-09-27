@@ -3,21 +3,7 @@
     <h1>Signup</h1>
     <div>
       <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-        <b-form-group
-          id="input-group-1"
-          label="Email:"
-          label-for="input-1"
-          description="Se permite una descripción."
-        >
           <b-form-input
-            id="input-1"
-            v-model="form.email"
-            type="email"
-            required
-            placeholder="Ingresar email"
-          ></b-form-input>
-        </b-form-group>
-
         <b-form-group id="input-group-2" label="Nombre:" label-for="input-2">
           <b-form-input
             id="input-2"
@@ -84,7 +70,6 @@ export default {
       errors: [],
       response: {},
       form: {
-        email: "",
         name: "",
         lastName: "",
         username: ""
@@ -99,6 +84,8 @@ export default {
         .signup(this.form)
         .then(response => {
           this.response = response.data;
+          console.log(response);
+          //this.$cookie.set('token',res.data.token);
         })
         .catch(e => {
           this.errors.push(e);
