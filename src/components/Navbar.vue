@@ -37,21 +37,27 @@ export default {
   data() {
     return {
       brand: "TACS",
-      userLoged: false
+      userLoged: false,
+      errors: [],
     };
   },
   created() {
-    this.userLoged = false;
+    this.userLoged = this.$cookies.get("token");
   },
   methods: {
     logout() {
-      api
-        .signout(this.$cookies.get("token"))
+      var vm = this;
+      const token = this.$cookies.get("token");
+      console.log("token logout " +token);
+      api.signout(token)
         .then(response => {
-          this.$router.push("Home");
+          console.log("eliminando token " + token)
+          vm.$cookies.remove(token);
+          this.userLoged = false;
+          vm.$router.push("Home");
         })
         .catch(e => {
-          this.errors.push(e);
+          vm.errors.push(e);
         });
     }
   }
