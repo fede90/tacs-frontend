@@ -27,7 +27,7 @@ const router = new Router({
       beforeEnter: (to, from, next) => {
         // Si existe un token, la sesion existe, por lo cual, redirecciona a home
         // if (window.localStorage.getItem('_token')) {
-        if (window.localStorage.getItem("_token")) {
+        if (this.$cookies.get("token")) {
           next({ path: "/" });
         } else {
           next();
@@ -37,7 +37,7 @@ const router = new Router({
     {
       path: "/signout",
       name: "signout",
-      component: () => import("./views/Signout.vue"),
+      component: () => import("./views/Signup.vue"),
       meta: { Auth: true, title: "Log Out" }
     }
   ]

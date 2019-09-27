@@ -41,12 +41,12 @@ export default {
     };
   },
   created() {
-    this.userLoged = window.localStorage.getItem("_token");
+    this.userLoged = false;
   },
   methods: {
     logout() {
       api
-        .signout(window.localStorage.getItem("_token"))
+        .signout(this.$cookies.get("token"))
         .then(response => {
           this.$router.push("Home");
         })
