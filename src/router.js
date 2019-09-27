@@ -11,10 +11,10 @@ export default new Router({
     {
       path: "/",
       name: "signin",
-      component: Signin
+      component: () => import("./views/Home.vue")
     },
     {
-      path: "/home",
+      path: "/signin",
       name: "signin",
       component: Signin
     },

@@ -3,7 +3,6 @@
     <h1>Signup</h1>
     <div>
       <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-         
         <b-form-group id="input-group-2" label="Nombre:" label-for="input-2">
           <b-form-input
             id="input-2"
@@ -85,7 +84,7 @@ export default {
         .signup(this.form)
         .then(response => {
           vm.response = response.data;
-          vm.$cookies.set("token",response.headers.authorization);
+          vm.$cookies.set("token", response.headers.authorization);
         })
         .catch(e => {
           this.errors.push(e);
