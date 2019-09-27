@@ -3,7 +3,6 @@
     <h1>Signup</h1>
     <div>
       <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-         
         <b-form-group id="input-group-2" label="Nombre:" label-for="input-2">
           <b-form-input
             id="input-2"

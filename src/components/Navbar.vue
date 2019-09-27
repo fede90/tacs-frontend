@@ -10,13 +10,17 @@
         <b-nav-item v-bind:to="'home'" v-if="userLoged">Repositories</b-nav-item>
         <b-nav-item v-bind:to="'home'" v-if="userLoged">Users</b-nav-item>
         <b-nav-item v-bind:to="'signup'" v-if="!userLoged">Signup</b-nav-item>
+        <b-nav-item v-bind:to="'signin'" v-if="!userLoged">Signin</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
       <b-navbar-nav class="ml-auto">
         <b-nav-form>
-          <b-form-input size="sm" class="mr-sm-2" placeholder="Search"></b-form-input>
-          <b-button size="sm" class="my-2 my-sm-0" type="submit">Search</b-button>
+          <b-form-input size="sm" class="mr-sm-2" placeholder="Search">
+          </b-form-input>
+          <b-button size="sm" class="my-2 my-sm-0" type="submit">
+            Search
+          </b-button>
         </b-nav-form>
         <b-nav-item-dropdown right>
           <!-- Using 'button-content' slot -->
@@ -42,6 +46,7 @@ export default {
     };
   },
   created() {
+    console.log("asdsa");
     this.userLoged = this.$cookies.get("token");
   },
   methods: {
@@ -49,7 +54,11 @@ export default {
       var vm = this;
       const token = this.$cookies.get("token");
       console.log("token logout " +token);
-      api.signout(token)
+      vm.$cookies.remove("token");
+      console.log("token logout " +token);
+      this.userLoged = false;
+      vm.$router.push("Home");
+      /*api.signout(token)
         .then(response => {
           console.log("eliminando token " + token)
           vm.$cookies.remove(token);
@@ -58,7 +67,7 @@ export default {
         })
         .catch(e => {
           vm.errors.push(e);
-        });
+        });*/
     }
   }
 };

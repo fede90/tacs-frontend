@@ -4,7 +4,7 @@ import Signin from "./views/Signin.vue";
 
 Vue.use(Router);
 function isLoggedIn(to, from, next) {
-  if (!Vue.cookies.get("token")) {
+  if (Vue.cookies.get("token")) {
     next({ path: "/home" });
   } else {
     next();
@@ -18,7 +18,7 @@ const router = new Router({
     {
       path: "/",
       name: "signin",
-      component: Signin
+      component: () => import("./views/Home.vue")
     },
     {
       path: "/home",
@@ -36,7 +36,7 @@ const router = new Router({
       path: "/signup",
       name: "signup",
       component: () => import("./views/Signup.vue"),
-      meta: { Auth: false, title: "Login" },
+      meta: { Auth: false, title: "Registro" },
       beforeEnter: isLoggedIn
     },
     {
@@ -72,8 +72,12 @@ const router = new Router({
 
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
-  if (to.meta.Auth && !Vue.cookies.get("token")) {
-    next({ path: "/login" });
+  var token = Vue.cookies.get("token");
+  console.log(token);
+  console.log(to.meta.Auth && token);
+
+  if (to.meta.Auth && !token) {
+    next({ path: "/signin" });
   } else {
     next();
   }
