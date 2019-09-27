@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
+import Signin from "./views/Signin.vue";
 
 Vue.use(Router);
 function isLoggedIn(to, from, next) {
@@ -17,14 +17,20 @@ const router = new Router({
   routes: [
     {
       path: "/",
-      name: "home",
-      component: Home
+      name: "signin",
+      component: Signin
     },
     {
       path: "/home",
       name: "home",
-      component: Home,
+      component: () => import("./views/Home.vue"),
       meta: { Auth: true, title: "Home" }
+    },
+    {
+      path: "/signin",
+      name: "signin",
+      component: Signin,
+      meta: { Auth: false, title: "Signin" }
     },
     {
       path: "/signup",
@@ -38,6 +44,28 @@ const router = new Router({
       name: "signout",
       component: () => import("./views/Signup.vue"),
       meta: { Auth: true, title: "Log Out" }
+    },
+
+    /* Rutas admin */
+    {
+      path: "/admin/userdata",
+      name: "userdata",
+      component: () => import("./views/admin/UserData.vue")
+    },
+    {
+      path: "/admin/repofav",
+      name: "repofav",
+      component: () => import("./views/admin/RepoFav.vue")
+    },
+    {
+      path: "/admin/registered-repositories",
+      name: "registered-repositories",
+      component: () => import("./views/admin/RegisteredRepo.vue")
+    },
+    {
+      path: "/admin/repo-lang-common",
+      name: "repo-lang-common",
+      component: () => import("./views/admin/RepoLangCommon.vue")
     }
   ]
 });
