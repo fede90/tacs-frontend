@@ -23,5 +23,11 @@ export default {
   },
   createUser(firstName, lastName) {
     return AXIOS.post(`/user/` + firstName + "/" + lastName);
-  }
+  },
+
+    /*Admin*/
+    getUserByUsername(username) {
+      return AXIOS.get(`/admin/users/` + username);
+    },
+
 };
