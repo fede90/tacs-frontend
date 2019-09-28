@@ -22,7 +22,7 @@
 
                 <!--Username y Password -->
                 <div class="card-body">
-                  <form>
+                  <b-form @submit="onSubmit">
                     <div class="input-group form-group">
                       <div class="input-group-prepend">
                         <span class="input-group-text">
@@ -30,11 +30,13 @@
                         </span>
                         <!--Dibujo cara-->
                       </div>
-                      <input
-                        type="text"
-                        class="form-control"
-                        placeholder="username"
-                      />
+                        <b-form-input
+                          id="input-4"
+                          v-model="form.username"
+                          required
+                          class="form-control"
+                          placeholder="Ingresar username"
+                        ></b-form-input>
                     </div>
                     <div class="input-group form-group">
                       <div class="input-group-prepend">
@@ -43,14 +45,14 @@
                         </span>
                         <!--Dibujo llave-->
                       </div>
-                      <input
-                        type="password"
-                        class="form-control"
-                        placeholder="password"
-                      />
-                    </div>
-                    <div class="row align-items-center remember">
-                      <input type="checkbox" />Remember Me
+                      <b-form-input
+                          id="input-4"
+                          v-model="form.pass"
+                          required
+                          class="form-control"
+                          type="password"
+                          placeholder="password"
+                        ></b-form-input>
                     </div>
 
                     <!--Boton login-->
@@ -61,7 +63,7 @@
                         class="btn float-right login_btn"
                       />
                     </div>
-                  </form>
+                  </b-form>
                 </div>
 
                 <!--Pie del Sign in (Para que se cree una cuenta si no la tiene)-->
@@ -80,7 +82,44 @@
     </div>
   </div>
 </template>
+<script>
+import api from "@/components/backend-api";
+export default {
+  name: "Signup",
+  data() {
+    return {
+      errors: [],
+      response: {},
+      form: {
+        pass: "",
+        username: ""
+      },
+      show: true
+    };
+  },
 
+  methods: {
+    loginUser() {
+      var vm = this;
+      api
+        .login(this.form)
+        .then(response => {       
+          this.response = response.data;
+          vm.response = response.data;
+          vm.$cookies.set("token",response.headers.authorization);
+          vm.$router.push("Home");
+        })
+        .catch(e => {
+          this.errors.push(e);
+        });
+    },
+    onSubmit(evt) {
+      evt.preventDefault();
+      this.loginUser();
+    },
+  }
+};
+</script>
 <style>
 .signin .container {
   padding-top: 90px;

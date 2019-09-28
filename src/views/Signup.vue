@@ -34,8 +34,7 @@
           id="input-group-5"
           label="Contraseña:"
           label-for="input-5"
-          description="Your password must be 8-20 characters long, contain letters and numbers, and must not
-          contain spaces, special characters, or emoji."
+          description=""
           ><b-form-input
             id="input-5"
             type="password"
@@ -49,19 +48,12 @@
         <b-button type="submit" variant="primary">Grabar</b-button>
         <b-button type="reset" variant="danger">Limpiar</b-button>
       </b-form>
-      <b-card class="mt-3" header="Form Data Result">
-        <pre class="m-0">{{ form }}</pre>
-      </b-card>
     </div>
-
-    <button @click="responseUser()">Request Signup</button>
-    <p>La respuesta es: {{ response }}</p>
   </div>
 </template>
 
 <script>
 import api from "@/components/backend-api";
-
 export default {
   name: "Signup",
   data() {
@@ -86,6 +78,7 @@ export default {
           this.response = response.data;
           vm.response = response.data;
           vm.$cookies.set("token",response.headers.authorization);
+
           vm.$router.push("Home");
         })
         .catch(e => {
@@ -98,11 +91,10 @@ export default {
     },
     onReset(evt) {
       evt.preventDefault();
-      this.form.email = "";
+      this.form.username = "";
       this.form.name = "";
-      this.form.food = null;
-      this.form.checked = [];
-      // Trick to reset/clear native browser form validation state
+      this.form.lastName = "";
+      this.form.pass = "";
       this.show = false;
       this.$nextTick(() => {
         this.show = true;

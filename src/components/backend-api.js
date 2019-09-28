@@ -9,6 +9,9 @@ export default {
   signup(user) {
     return AXIOS.post(`/signup`, user);
   },
+  login(user){
+    return AXIOS.post(`/login`, user);
+  },
   signout(token, user) {
     if (token) {
       AXIOS.defaults.headers.common["Authorization"] = token;
