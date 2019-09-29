@@ -25,9 +25,8 @@ export default {
     return AXIOS.post(`/user/` + firstName + "/" + lastName);
   },
 
-    /*Admin*/
-    getUserByUsername(username) {
-      return AXIOS.get(`/admin/users/` + username);
-    },
-
+  /*Admin*/
+  getUserByUsername(username) {
+    return AXIOS.get(`/admin/users/` + username);
+  }
 };
