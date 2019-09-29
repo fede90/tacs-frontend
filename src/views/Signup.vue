@@ -2,51 +2,50 @@
   <div class="signup">
     <h1>Signup</h1>
     <div>
+      <alert :message="message" v-if="errors.length > 0" />
       <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-        <b-form-group id="input-group-2" label="Nombre:" label-for="input-2">
-          <b-form-input
-            id="input-2"
-            v-model="form.name"
-            required
-            placeholder="Enter name"
-          ></b-form-input>
-        </b-form-group>
+        <form-wrapper :validator="$v.form">
+          <form-group name="name" label="Nombre">
+            <b-form-input
+              slot-scope="{ attrs, listeners }"
+              v-bind="attrs"
+              v-on="listeners"
+              v-model="form.name"
+              placeholder="Ingresar nombre"
+            />
+          </form-group>
+          <form-group name="lastName" label="Apellido">
+            <b-form-input
+              slot-scope="{ attrs, listeners }"
+              v-bind="attrs"
+              v-on="listeners"
+              v-model="form.lastName"
+              placeholder="Ingresar apellido"
+            />
+          </form-group>
+          <form-group name="username" label="Username">
+            <b-form-input
+              slot-scope="{ attrs, listeners }"
+              v-bind="attrs"
+              v-on="listeners"
+              v-model="form.username"
+              placeholder="Ingresar username"
+            />
+          </form-group>
+          <form-group name="pass" label="Contraseña">
+            <b-form-input
+              slot-scope="{ attrs, listeners }"
+              v-bind="attrs"
+              v-on="listeners"
+              v-model="form.pass"
+              placeholder="Ingresar contraseña"
+              type="password"
+            />
+          </form-group>
 
-        <b-form-group id="input-group-3" label="Apellido:" label-for="input-3">
-          <b-form-input
-            id="input-3"
-            v-model="form.lastName"
-            required
-            placeholder="Ingresar apellido"
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group id="input-group-4" label="Username:" label-for="input-4">
-          <b-form-input
-            id="input-4"
-            v-model="form.username"
-            required
-            placeholder="Ingresar username"
-          ></b-form-input>
-        </b-form-group>
-
-        <b-form-group
-          id="input-group-5"
-          label="Contraseña:"
-          label-for="input-5"
-          description=""
-          ><b-form-input
-            id="input-5"
-            type="password"
-            v-model="form.pass"
-            required
-            aria-describedby="password-help-block"
-            placeholder="Ingresar contrase"
-          ></b-form-input>
-        </b-form-group>
-
-        <b-button type="submit" variant="primary">Grabar</b-button>
-        <b-button type="reset" variant="danger">Limpiar</b-button>
+          <b-button type="submit" variant="primary">Grabar</b-button>
+          <b-button type="reset" variant="danger">Limpiar</b-button>
+        </form-wrapper>
       </b-form>
     </div>
   </div>
@@ -54,16 +53,21 @@
 
 <script>
 import api from "@/components/backend-api";
+import FormGroup from "@/components/FormGroup";
+import Alert from "@/components/alert/Alert";
+import { required } from "vuelidate/lib/validators";
 export default {
   name: "Signup",
+  components: { FormGroup, Alert },
   data() {
     return {
       errors: [],
-      response: {},
+      message: "",
       form: {
         name: "",
         lastName: "",
-        username: ""
+        username: "",
+        pass: ""
       },
       show: true
     };
@@ -74,20 +78,23 @@ export default {
       var vm = this;
       api
         .signup(this.form)
-        .then(response => {       
+        .then(response => {
           this.response = response.data;
           vm.response = response.data;
-          vm.$cookies.set("token",response.headers.authorization);
-
+          vm.$cookies.set("token", response.headers.authorization);
           vm.$router.push("Home");
         })
         .catch(e => {
-          this.errors.push(e);
+          this.message = e.response.data.msg;
+          this.errors.push(e.response.data);
         });
     },
     onSubmit(evt) {
       evt.preventDefault();
-      this.responseUser();
+      this.$v.form.$touch();
+      if (!this.$v.$invalid) {
+        this.responseUser();
+      }
     },
     onReset(evt) {
       evt.preventDefault();
@@ -99,6 +106,14 @@ export default {
       this.$nextTick(() => {
         this.show = true;
       });
+    }
+  },
+  validations: {
+    form: {
+      name: { required },
+      lastName: { required },
+      username: { required },
+      pass: { required }
     }
   }
 };

@@ -73,9 +73,6 @@ const router = new Router({
 router.beforeEach((to, from, next) => {
   document.title = to.meta.title;
   var token = Vue.cookies.get("token");
-  console.log(token);
-  console.log(to.meta.Auth && token);
-
   if (to.meta.Auth && !token) {
     next({ path: "/signin" });
   } else {

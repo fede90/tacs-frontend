@@ -30,13 +30,13 @@
                         </span>
                         <!--Dibujo cara-->
                       </div>
-                        <b-form-input
-                          id="input-4"
-                          v-model="form.username"
-                          required
-                          class="form-control"
-                          placeholder="Ingresar username"
-                        ></b-form-input>
+                      <b-form-input
+                        id="input-4"
+                        v-model="form.username"
+                        required
+                        class="form-control"
+                        placeholder="Ingresar username"
+                      ></b-form-input>
                     </div>
                     <div class="input-group form-group">
                       <div class="input-group-prepend">
@@ -46,13 +46,13 @@
                         <!--Dibujo llave-->
                       </div>
                       <b-form-input
-                          id="input-4"
-                          v-model="form.pass"
-                          required
-                          class="form-control"
-                          type="password"
-                          placeholder="password"
-                        ></b-form-input>
+                        id="input-4"
+                        v-model="form.pass"
+                        required
+                        class="form-control"
+                        type="password"
+                        placeholder="password"
+                      ></b-form-input>
                     </div>
 
                     <!--Boton login-->
@@ -103,10 +103,10 @@ export default {
       var vm = this;
       api
         .login(this.form)
-        .then(response => {       
+        .then(response => {
           this.response = response.data;
           vm.response = response.data;
-          vm.$cookies.set("token",response.headers.authorization);
+          vm.$cookies.set("token", response.headers.authorization);
           vm.$router.push("Home");
         })
         .catch(e => {
@@ -116,7 +116,7 @@ export default {
     onSubmit(evt) {
       evt.preventDefault();
       this.loginUser();
-    },
+    }
   }
 };
 </script>
