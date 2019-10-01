@@ -28,5 +28,10 @@ export default {
   /*Admin*/
   getUserByUsername(username) {
     return AXIOS.get(`/admin/users/` + username);
+  },
+  getAnalytics(date) {
+    return AXIOS.get(`/admin/analytics?fechaDesde=` + date);
   }
+
+
 };
