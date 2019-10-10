@@ -49,23 +49,23 @@ export default {
       /* Conocer la cantidad total de repositorios registrados en el sistema */
       /* En el día de hoy */   
       api.getAnalytics(this.func_today()).then(response=>{
-        this.today=response.data.repository_counter
+        this.today=response.data.data.repository_counter
       }).catch(e=>{this.showError=true});
       /* En los ultimos 3 dias */
       api.getAnalytics(this.func_last3Days()).then(response=>{
-        this.last_3_days=response.data.repository_counter
+        this.last_3_days=response.data.data.repository_counter
       }).catch(e=>{this.showError=true});
       /* En la ultima semana */
       api.getAnalytics(this.func_lastWeeks()).then(response=>{
-        this.last_week=response.data.repository_counter
+        this.last_week=response.data.data.repository_counter
       }).catch(e=>{this.showError=true});
       /* En el ultimo mes */
       api.getAnalytics(this.func_lastMonth()).then(response=>{
-        this.last_month=response.data.repository_counter
+        this.last_month=response.data.data.repository_counter
       }).catch(e=>{this.showError=true});
       /* Desde el inicio de los tiempos */
       api.getAnalytics(this.func_theBeginning()).then(response=>{
-        this.the_beginning=response.data.repository_counter
+        this.the_beginning=response.data.data.repository_counter
       }).catch(e=>{this.showError=true})     
   },
   methods:{

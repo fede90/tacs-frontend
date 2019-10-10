@@ -2,7 +2,6 @@
   <div class="user-data">
     <Admin />
     <h1>User data</h1>
-
     <!-- TODO: ver si se deberia definir un filtro de busqueda, como el de los repositorios -->
     <!-- Busqueda de usuario -->
     <b-container>
@@ -196,7 +195,7 @@ export default {
       api
         .getUserByUsername(this.searchUsername)
         .then(response => {
-          this.responseUser = response.data;
+          this.responseUser = response.data.data;
           this.oneUser = true;
           this.allUser = false;
           this.showUserNotFound = false;
