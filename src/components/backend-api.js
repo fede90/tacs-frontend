@@ -31,6 +31,12 @@ export default {
   },
   getAnalytics(date) {
     return AXIOS.get(`/admin/analytics?fechaDesde=` + date);
+  },
+  getRepositories(){
+    return AXIOS.get(`/admin/repositories`)
+  },
+  getUserAmount(id){
+    return AXIOS.get(`/admin/repositories/`+id)
   }
 
 

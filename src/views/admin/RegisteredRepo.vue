@@ -37,11 +37,11 @@ export default {
   data() {
     return {
       showError:false,
-      today: -1,
-      last_3_days: -1,
-      last_week: -1,
-      last_month: -1,
-      the_beginning: -1
+      today: "",
+      last_3_days: "",
+      last_week: "",
+      last_month: "",
+      the_beginning: ""
     };
   },
   /* El mounted se ejecuta antes de que se cargue la pagina */

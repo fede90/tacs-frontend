@@ -80,10 +80,9 @@
             >{{ sizeRepositories() }}</b-card-text
           >
 
-          <!--TODO: falta que devuelva el lenguaje que mas usa-->
           <b-card-text
-            ><em class="font-weight-bold">Most used language: </em
-            >{{ responseUser.language }}</b-card-text
+            ><em class="font-weight-bold">Languages: </em
+            >{{ responseUser.languages.toString() }}</b-card-text
           >
         </b-card>
       </b-row>
@@ -123,7 +122,8 @@ export default {
             creationDate: ""
           }
         ],
-        creationDate: []
+        creationDate: [],
+        languages:[],
       },
       searchUsername: "",
       oneUser: false,
@@ -223,7 +223,7 @@ export default {
         aux = aux + this.responseUser.contents[i].contents.length;
       }
       return aux;
-    }
+    },
   }
 };
 </script>
