@@ -47,25 +47,42 @@ const router = new Router({
     },
 
     /* Rutas admin */
+    /*TODO: poner Auth en true??? */
     {
       path: "/admin/userdata",
       name: "userdata",
-      component: () => import("./views/admin/UserData.vue")
+      component: () => import("./views/admin/UserData.vue"),
+      meta: { Auth: false, title: "Userdata" }
     },
     {
       path: "/admin/repofav",
       name: "repofav",
-      component: () => import("./views/admin/RepoFav.vue")
+      component: () => import("./views/admin/RepoFav.vue"),
+      meta: { Auth: false, title: "Repo fav" }
     },
     {
       path: "/admin/registered-repositories",
       name: "registered-repositories",
-      component: () => import("./views/admin/RegisteredRepo.vue")
+      component: () => import("./views/admin/RegisteredRepo.vue"),
+      meta: { Auth: false, title: "Analytis" }
     },
     {
       path: "/admin/repo-lang-common",
       name: "repo-lang-common",
-      component: () => import("./views/admin/RepoLangCommon.vue")
+      component: () => import("./views/admin/RepoLangCommon.vue"),
+      meta: { Auth: false, title: "repo-lang-common" }
+    },
+
+    /*Ruta user*/
+    {
+      path: "/user/favourites",
+      name: "favourites",
+      component: () => import("./views/user/Favourites.vue")
+    },
+    {
+      path: "/user/repositories",
+      name: "repositories",
+      component: () => import("./views/user/Repositories.vue")
     }
   ]
 });

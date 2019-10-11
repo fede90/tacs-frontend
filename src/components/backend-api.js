@@ -18,11 +18,18 @@ export default {
     }
     return AXIOS.post(`/logout`, user);
   },
+  /*User*/
   getUser(id) {
     return AXIOS.get(`/user/` + id);
   },
   createUser(firstName, lastName) {
     return AXIOS.post(`/user/` + firstName + "/" + lastName);
+  },
+  getUserWithoutID(){
+    return AXIOS.get(`/user`);
+  },
+  getFavourites(){
+    return AXIOS.get(`/user/favourites`)
   },
 
   /*Admin*/
