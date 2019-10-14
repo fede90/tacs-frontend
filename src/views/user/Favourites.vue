@@ -5,15 +5,17 @@
     <b-button variant="primary">New favourite list</b-button>
 
     <!--Muestreo de las listas de favoritos, en formato de card-->
-    
-      <b-card-group columns > <!--Esto puede marcar error, pero funciona-->
-        
+      <b-card-group columns > 
         <b-card bg-variant="secondary" text-variant="white" :header=fav.name class="text-center mt-3" v-for="fav of responseUserFavourite.data.contents">
-          <b-card-text v-for="repo of fav.contents">
+          <b-card-text v-for="repo of fav.contents"> <!--Esto puede marcar error, pero funciona-->
             <em class="font-weight-bold">ID: </em>{{repo.id}}
           </b-card-text>
-          <b-button variant="primary">Edit</b-button>
+          <b-button variant="primary" v-b-modal.modal-1 @click="selectFav(fav)">Edit</b-button>
         </b-card>
+        
+        <b-modal id="modal-1" title="Edit list">
+          <p class="my-4">{{favSelected.name}}</p>
+        </b-modal>
       </b-card-group>
   </div>
 </template>
@@ -34,8 +36,8 @@
         form: {},
         show: true,
         pruebaLogin:{ /*TODO: borrar, esto es solo para probar*/
-          "username":"username",
-        	"pass":"password"
+          "username":"Username1",
+        	"pass":"pass1"
         },
         responseUserFavourite:{
           data:{
@@ -50,7 +52,8 @@
               }
             ]
           }
-        }
+        },
+        favSelected:{}
       };
     },
 
@@ -79,7 +82,13 @@
         this.$nextTick(() => {
           this.show = true;
         });
+      },
+
+      /**/
+      selectFav(fav){
+        this.favSelected=fav
       }
+
     },
     validations: {
       form: {}
