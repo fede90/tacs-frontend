@@ -79,7 +79,6 @@ export default {
       api
         .signup(this.form)
         .then(response => {
-          this.response = response.data;
           vm.response = response.data;
           vm.$cookies.set("token", response.headers.authorization);
           vm.$router.push("Home");

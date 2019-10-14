@@ -4,6 +4,9 @@
     <h1>User data</h1>
     <!-- TODO: ver si se deberia definir un filtro de busqueda, como el de los repositorios -->
     <!-- Busqueda de usuario -->
+    <div v-if="errorMessage">
+      <p>{{ errorMessage }}</p>
+    </div>
     <b-container>
       <b-row align-h="center">
         <b-col align-self="center" cols="auto">
@@ -20,11 +23,11 @@
           <b-button variant="primary" @click="seeOneUser">Search user</b-button>
         </b-col>
 
-        <!-- Este boton buscaria todos los usuarios, ver si hay que hacerlo --
-                <b-col align-self="end" cols="auto" > 
-                    <b-button variant="danger" @click="seeAllUser">Search all users</b-button>
-                </b-col>
-                -->
+        <b-col align-self="end" cols="auto">
+          <b-button variant="danger" @click="seeAllUser"
+            >Search all users</b-button
+          >
+        </b-col>
       </b-row>
     </b-container>
 
@@ -36,7 +39,7 @@
       <b-row align-h="center">
         <b-col align-self="center" cols="auto">
           <b-table
-            :items="usersExample"
+            :items="users"
             :fields="fields"
             :sort-by.sync="sortBy"
             :sort-desc.sync="sortDesc"
@@ -87,15 +90,6 @@
         </b-card>
       </b-row>
     </b-container>
-
-    <!-- Mostrar error cuando no encontro usuario -->
-    <b-container v-show="showUserNotFound">
-      <b-row align-h="center">
-        <b-alert variant="danger" show>
-          {{ usernameNotFound }} Not Found!!!
-        </b-alert>
-      </b-row>
-    </b-container>
   </div>
 </template>
 
@@ -123,13 +117,13 @@ export default {
           }
         ],
         creationDate: [],
-        languages:[],
+        languages: []
       },
       searchUsername: "",
       oneUser: false,
       allUser: false,
-      showUserNotFound: false,
-      usernameNotFound: "",
+      users: [],
+      errorMessage: "",
 
       /* Esto es para la tabla de usuarios, ver si va a estar*/
       fields: [
@@ -140,82 +134,41 @@ export default {
         { key: "language", sortable: true }
       ],
       sortBy: "age",
-      sortDesc: false,
-      /*TODO: Estos son solo ejemplos para la tabla*/
-      usersExample: [
-        {
-          username: "Dickerson",
-          favourite_size: 40,
-          repositorie_size: 80,
-          last_access: "2019-09-15",
-          language: "C"
-        },
-        {
-          username: "Larsen",
-          favourite_size: 21,
-          repositorie_size: 46,
-          last_access: "2019-06-07",
-          language: "JAVA"
-        },
-        {
-          username: "Geneva",
-          favourite_size: 89,
-          repositorie_size: 160,
-          last_access: "2019-09-25",
-          language: "PASCAL"
-        },
-        {
-          username: "Jami",
-          favourite_size: 2,
-          repositorie_size: 4,
-          last_access: "2018-09-15",
-          language: "ANGULAR"
-        },
-        {
-          username: "Wilson",
-          favourite_size: 10,
-          repositorie_size: 24,
-          last_access: "2019-09-01",
-          language: "C++"
-        }
-      ],
-      userExample: {
-        username: "Dickerson",
-        name: "Doc",
-        lastname: "Thompson",
-        favourite_size: 40,
-        repositorie_size: 80,
-        last_access: "2019-09-15",
-        language: "C"
-      }
+      sortDesc: false
     };
   },
   methods: {
     seeOneUser() {
+      var vm = this;
       api
         .getUserByUsername(this.searchUsername)
         .then(response => {
           this.responseUser = response.data.data;
           this.oneUser = true;
           this.allUser = false;
-          this.showUserNotFound = false;
         })
         .catch(e => {
-          if (e.response.status === 404) {
-            this.showUserNotFound = true;
-            this.usernameNotFound = this.searchUsername;
+          if (e.response.status != 200) {
+            vm.errorMessage = e.response.data.message;
             this.oneUser = false;
             this.allUser = false;
-            this.showUserNotFound = true;
           }
-          /* TODO: ver que hacer si aparece otro error */
         });
     },
 
     seeAllUser() {
+      var vm = this;
+      api
+        .getAllUsers()
+        .then(response => {
+          vm.users = response.data.data;
+          vm.allUser = true;
+        })
+        .catch(e => {
+          console.log(e);
+        });
       this.oneUser = false;
       this.allUser = true;
-      this.showUserNotFound = false;
     },
     sizeRepositories() {
       var aux = 0;
@@ -223,7 +176,7 @@ export default {
         aux = aux + this.responseUser.contents[i].contents.length;
       }
       return aux;
-    },
+    }
   }
 };
 </script>

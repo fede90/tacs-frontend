@@ -6,7 +6,13 @@
 
     <!--Muestreo de las listas de favoritos, en formato de card-->
       <b-card-group columns > 
-        <b-card bg-variant="secondary" text-variant="white" :header=fav.name class="text-center mt-3" v-for="fav of responseUserFavourite.data.contents">
+        <b-card
+          bg-variant="secondary"
+          text-variant="white"
+          :header="fav.name"
+          class="text-center mt-3"
+          v-for="fav of responseUserFavourite.data.contents"
+        >
           <b-card-text v-for="repo of fav.contents"> <!--Esto puede marcar error, pero funciona-->
             <em class="font-weight-bold">ID: </em>{{repo.id}}
           </b-card-text>
@@ -68,13 +74,6 @@
             this.errors.push(e.response.data);
           });
       },
-      onSubmit(evt) {
-        evt.preventDefault();
-        this.$v.form.$touch();
-        if (!this.$v.$invalid) {
-            //
-        }
-      },
       onReset(evt) {
         evt.preventDefault();
         this.form = "";
@@ -90,19 +89,26 @@
       }
 
     },
-    validations: {
-      form: {}
-    },
-    mounted(){
-      api.login(this.pruebaLogin).then(response=>{/*TODO:sacar este login, es solo para probar*/
-        
-        api.getUserWithoutID().then(response=>{ /* TODO: este api.getUserWithoutID si va, no borrar */
-          this.responseUserFavourite=response.data
-        }).catch(e=>{
-          this.responseUserFavourite=e    /* TODO: hacer algo con el error */
-        })
+  validations: {
+    form: {}
+  },
+  mounted() {
+    api
+      .login(this.pruebaLogin)
+      .then(response => {
+        /*TODO:sacar este login, es solo para probar*/
 
-      }).catch(e=>{})
-    }
-  };
+        api
+          .getUserWithoutID()
+          .then(response => {
+            /* TODO: este api.getUserWithoutID si va, no borrar */
+            this.responseUserFavourite = response.data;
+          })
+          .catch(e => {
+            this.responseUserFavourite = e; /* TODO: hacer algo con el error */
+          });
+      })
+      .catch(e => {});
+  }
+};
 </script>

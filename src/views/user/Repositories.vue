@@ -1,6 +1,6 @@
 <template>
   <div class="repositories">
-    <User/>
+    <User />
     <h1>Repositories</h1>
     <br>
     <!--Formulario de busqueda-->
@@ -17,7 +17,7 @@
                 <template v-slot:first>
                   <option :value='null'>Choose</option>
                 </template>
-              </b-form-select>
+            </b-form-select>
             <b-input id="inline-form-input" placeholder="Number of forks" v-model="fork" type="number"></b-input>
             <b-form-invalid-feedback :state="validationNumber(fork)">
               *Enter number greater than zero
@@ -28,10 +28,10 @@
           </div>
         </b-form>
       </b-row>
-      <br>
+      <br />
 
       <!--Stars-->
-      <b-row align-h="center"> 
+      <b-row align-h="center">
         <b-form inline>
           <b-form-checkbox v-model="checkbox_stars" value="true" unchecked-value="false" class="mb-2 mr-sm-2 mb-sm-0"></b-form-checkbox>
           <label class="mr-sm-2" for="inline-form-custom-select-pref">Stars</label>
@@ -52,13 +52,15 @@
           </div>
         </b-form>
       </b-row>
-      <br>
+      <br />
 
       <!--Language-->
-      <b-row align-h="center"> 
+      <b-row align-h="center">
         <b-form inline>
           <b-form-checkbox v-model="checkbox_language" value="true" unchecked-value="false" class="mb-2 mr-sm-2 mb-sm-0"></b-form-checkbox>
-          <label class="mr-sm-2" for="inline-form-custom-select-pref">Language</label>
+          <label class="mr-sm-2" for="inline-form-custom-select-pref"
+            >Language</label
+          >
           <div v-show="trueCheckbox(checkbox_language)"> 
             <b-input id="inline-form-input" placeholder="Language" v-model="language" type="text"></b-input>
             <b-form-invalid-feedback :state="validationText(language)">
@@ -67,10 +69,10 @@
           </div>  
         </b-form>
       </b-row>
-      <br>
+      <br />
 
       <!--Name repo-->
-      <b-row align-h="center"> 
+      <b-row align-h="center">
         <b-form inline>
           <b-form-checkbox v-model="checkbox_name" value="true" unchecked-value="false" class="mb-2 mr-sm-2 mb-sm-0"></b-form-checkbox>
           <label class="mr-sm-2" for="inline-form-custom-select-pref">Repo name</label>
@@ -97,7 +99,7 @@
           </div>
         </b-form>
       </b-row>
-      <br>
+      <br />
 
       <!--Button Search-->
       <b-button variant="primary" @click="searchRepositories">Search</b-button>
@@ -130,7 +132,7 @@ import Alert from "@/components/alert/Alert";
 import { required } from "vuelidate/lib/validators";
 export default {
   name: "repositories",
-  components: { FormGroup, Alert, User  },
+  components: { FormGroup, Alert, User },
   data() {
     return {
       errors: [],
@@ -170,7 +172,7 @@ export default {
       evt.preventDefault();
       this.$v.form.$touch();
       if (!this.$v.$invalid) {
-          //
+        //
       }
     },
 
