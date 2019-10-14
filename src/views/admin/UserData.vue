@@ -5,7 +5,7 @@
     <!-- TODO: ver si se deberia definir un filtro de busqueda, como el de los repositorios -->
     <!-- Busqueda de usuario -->
     <div v-if="errorMessage">
-      <p>{{errorMessage}}</p>
+      <p>{{ errorMessage }}</p>
     </div>
     <b-container>
       <b-row align-h="center">
@@ -23,10 +23,11 @@
           <b-button variant="primary" @click="seeOneUser">Search user</b-button>
         </b-col>
 
-        <b-col align-self="end" cols="auto" > 
-            <b-button variant="danger" @click="seeAllUser">Search all users</b-button>
+        <b-col align-self="end" cols="auto">
+          <b-button variant="danger" @click="seeAllUser"
+            >Search all users</b-button
+          >
         </b-col>
-                
       </b-row>
     </b-container>
 
@@ -116,7 +117,7 @@ export default {
           }
         ],
         creationDate: [],
-        languages:[],
+        languages: []
       },
       searchUsername: "",
       oneUser: false,
@@ -133,7 +134,7 @@ export default {
         { key: "language", sortable: true }
       ],
       sortBy: "age",
-      sortDesc: false,
+      sortDesc: false
     };
   },
   methods: {
@@ -145,28 +146,27 @@ export default {
           this.responseUser = response.data.data;
           this.oneUser = true;
           this.allUser = false;
-  
         })
         .catch(e => {
           if (e.response.status != 200) {
             vm.errorMessage = e.response.data.message;
             this.oneUser = false;
             this.allUser = false;
-    
           }
         });
     },
 
     seeAllUser() {
       var vm = this;
-      api.getAllUsers()
+      api
+        .getAllUsers()
         .then(response => {
-            vm.users = response.data.data;
-            vm.allUser = true;
-          })
-          .catch(e => {
-            console.log(e);
-          });
+          vm.users = response.data.data;
+          vm.allUser = true;
+        })
+        .catch(e => {
+          console.log(e);
+        });
       this.oneUser = false;
       this.allUser = true;
     },
@@ -176,7 +176,7 @@ export default {
         aux = aux + this.responseUser.contents[i].contents.length;
       }
       return aux;
-    },
+    }
   }
 };
 </script>

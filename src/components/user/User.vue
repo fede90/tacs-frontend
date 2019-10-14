@@ -11,12 +11,11 @@
   </div>
 </template>
 
-
 <style>
-    .admin {
-    width: 100vw;
-    position: relative;
-    }
+.admin {
+  width: 100vw;
+  position: relative;
+}
 </style>
 
 <script>

@@ -31,7 +31,7 @@
         </b-row>
       </b-container>
 
-      <br/>
+      <br />
 
       <b-row align-h="center">
         <b-col align-self="center" cols="auto">
@@ -57,11 +57,10 @@
           </b-alert>
         </b-row>
       </b-container>
-    
     </b-container>
 
-    <br/>
-    <br/>
+    <br />
+    <br />
 
     <!-- Vista de las listas favoritas de ambos usuarios -->
     <b-container>
@@ -128,9 +127,10 @@
             header="Common repositories"
             class="text-center"
           >
-            <b-card-text v-for="repo of getRepoCommon()" ><!-- Esto puede marcar error, pero funciona -->
-              <em class="font-weight-bold">ID: </em>{{repo.id}}
-              <em class="font-weight-bold">Language: </em>{{repo.language}}
+            <b-card-text v-for="repo of getRepoCommon()"
+              ><!-- Esto puede marcar error, pero funciona -->
+              <em class="font-weight-bold">ID: </em>{{ repo.id }}
+              <em class="font-weight-bold">Language: </em>{{ repo.language }}
             </b-card-text>
           </b-card>
         </b-col>
@@ -140,7 +140,8 @@
             header="Common languages"
             class="text-center"
           >
-            <b-card-text v-for="lang of getLanguageCommon()" >{{ /* no quiero poner v-bind:key="lang" porque me tira error en el browser*/
+            <b-card-text v-for="lang of getLanguageCommon()">{{
+              /* no quiero poner v-bind:key="lang" porque me tira error en el browser*/
               lang
             }}</b-card-text>
           </b-card>
@@ -148,8 +149,7 @@
       </b-row>
     </b-container>
 
-<br>
-
+    <br />
   </div>
 </template>
 
@@ -169,11 +169,13 @@ export default {
       username1NotFound: "",
       showUser2NotFound: false,
       username2NotFound: "",
-      repoCommon:[{
-        id:-1,
-        registerDate:"",
-        language:""
-      }],
+      repoCommon: [
+        {
+          id: -1,
+          registerDate: "",
+          language: ""
+        }
+      ],
       value1: [],
       value2: [],
       options: [
@@ -193,11 +195,13 @@ export default {
           {
             name: "",
             id: "",
-            contents: [{
-              id:-1,
-              registerDate:"",
-              language:""
-            }],
+            contents: [
+              {
+                id: -1,
+                registerDate: "",
+                language: ""
+              }
+            ],
             creationDate: ""
           }
         ],
@@ -213,24 +217,21 @@ export default {
           {
             name: "",
             id: "",
-            contents: [{
-              id:-1,
-              registerDate:"",
-              language:""
-            }],
+            contents: [
+              {
+                id: -1,
+                registerDate: "",
+                language: ""
+              }
+            ],
             creationDate: ""
           }
         ],
         creationDate: []
       },
 
-      
-      favs1: [
-        { text: "Favorito X", value: "1" }
-      ],
-      favs2: [
-        { text: "Favorito Y", value: "5" }
-      ],
+      favs1: [{ text: "Favorito X", value: "1" }],
+      favs2: [{ text: "Favorito Y", value: "5" }],
       exampleRepoCommon: [
         { name: "Repo 1" },
         { name: "Repo 2" },
@@ -246,18 +247,18 @@ export default {
     },
     state2() {
       return this.value2.length === 1;
-    },
+    }
   },
   methods: {
     seeUser1() {
-      this.value1=[];
+      this.value1 = [];
       api
         .getUserByUsername(this.searchUsername1)
         .then(response => {
           this.responseUser1 = response.data.data;
           this.viewUser1 = true;
           this.showUser1NotFound = false;
-          this.favs1=this.transformListFav(this.responseUser1.contents)
+          this.favs1 = this.transformListFav(this.responseUser1.contents);
         })
         .catch(e => {
           if (e.response.status === 404) {
@@ -268,14 +269,14 @@ export default {
         });
     },
     seeUser2() {
-      this.value2=[];
+      this.value2 = [];
       api
         .getUserByUsername(this.searchUsername2)
         .then(response => {
           this.responseUser2 = response.data.data;
           this.viewUser2 = true;
           this.showUser2NotFound = false;
-          this.favs2=this.transformListFav(this.responseUser2.contents)
+          this.favs2 = this.transformListFav(this.responseUser2.contents);
         })
         .catch(e => {
           if (e.response.status === 404) {
@@ -287,39 +288,51 @@ export default {
     },
 
     /*Esta funcion lo que hace es transformar la lista de fav del backend al formato que necesita el checkbox*/
-    transformListFav(favList){ 
-      var aux=[];
+    transformListFav(favList) {
+      var aux = [];
       for (var i = 0; i < favList.length; i++) {
-        aux[i] = {text:favList[i].name,value:favList[i].id}
+        aux[i] = { text: favList[i].name, value: favList[i].id };
       }
       return aux;
     },
 
-    getRepoCommon(){
-      if(this.value1.length===1 && this.value2.length===1){
-        var listRepoFav1=this.responseUser1.contents.filter(fav=>fav.id===this.value1[0]);
-        var listRepoFav2=this.responseUser2.contents.filter(fav=>fav.id===this.value2[0]);
-        var repoCommon=listRepoFav1[0].contents.filter(repo1=>listRepoFav2[0].contents.some(repo2=>repo2.id===repo1.id)); /*El [0] es porque el filter me devuelve una lista de fav, pero yo solo quiero el me encontro*/
-        return repoCommon
+    getRepoCommon() {
+      if (this.value1.length === 1 && this.value2.length === 1) {
+        var listRepoFav1 = this.responseUser1.contents.filter(
+          fav => fav.id === this.value1[0]
+        );
+        var listRepoFav2 = this.responseUser2.contents.filter(
+          fav => fav.id === this.value2[0]
+        );
+        var repoCommon = listRepoFav1[0].contents.filter(repo1 =>
+          listRepoFav2[0].contents.some(repo2 => repo2.id === repo1.id)
+        ); /*El [0] es porque el filter me devuelve una lista de fav, pero yo solo quiero el me encontro*/
+        return repoCommon;
       }
-
     },
-    getLanguageCommon(){
-      if(this.value1.length===1 && this.value2.length===1){
-        var listRepoFav1=this.responseUser1.contents.filter(fav=>fav.id===this.value1[0]);
-        var listRepoFav2=this.responseUser2.contents.filter(fav=>fav.id===this.value2[0]);
-        var repoCommon=listRepoFav1[0].contents.filter(repo1=>listRepoFav2[0].contents.some(repo2=>repo2.language===repo1.language));
-        var languageCommon=[]
-        for(var i=0;i<repoCommon.length;i++){ /*Esto lo hago para que no tenga lenguajes repetidos*/
-          if(!languageCommon.some(lang=>lang===repoCommon[i].language)){
-            languageCommon.push(repoCommon[i].language)
+    getLanguageCommon() {
+      if (this.value1.length === 1 && this.value2.length === 1) {
+        var listRepoFav1 = this.responseUser1.contents.filter(
+          fav => fav.id === this.value1[0]
+        );
+        var listRepoFav2 = this.responseUser2.contents.filter(
+          fav => fav.id === this.value2[0]
+        );
+        var repoCommon = listRepoFav1[0].contents.filter(repo1 =>
+          listRepoFav2[0].contents.some(
+            repo2 => repo2.language === repo1.language
+          )
+        );
+        var languageCommon = [];
+        for (var i = 0; i < repoCommon.length; i++) {
+          /*Esto lo hago para que no tenga lenguajes repetidos*/
+          if (!languageCommon.some(lang => lang === repoCommon[i].language)) {
+            languageCommon.push(repoCommon[i].language);
           }
         }
-        return languageCommon
+        return languageCommon;
       }
-
     }
-
   }
 };
 </script>

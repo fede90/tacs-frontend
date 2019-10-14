@@ -12,15 +12,15 @@
         <b-nav-item v-bind:to="'/admin/repofav'" v-if="userLoged"
           >Repo Fav</b-nav-item
         >
-        <b-nav-item v-bind:to="'/admin/registered-repositories'" v-if="userLoged"
+        <b-nav-item
+          v-bind:to="'/admin/registered-repositories'"
+          v-if="userLoged"
           >Repos Registered</b-nav-item
         >
         <b-nav-item v-bind:to="'/admin/repo-lang-common'" v-if="userLoged"
           >Repo Lang</b-nav-item
         >
-        <b-nav-item v-bind:to="'home'" v-if="userLoged"
-          >Home</b-nav-item
-        >
+        <b-nav-item v-bind:to="'home'" v-if="userLoged">Home</b-nav-item>
         <b-nav-item v-bind:to="'home'" v-if="userLoged">Users</b-nav-item>
         <b-nav-item v-bind:to="'signup'" v-if="!userLoged">Signup</b-nav-item>
         <b-nav-item v-bind:to="'signin'" v-if="!userLoged">Signin</b-nav-item>

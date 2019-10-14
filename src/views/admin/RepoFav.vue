@@ -2,7 +2,7 @@
   <div class="repofav">
     <Admin />
     <h1>Favorite repositories</h1>
-      <b-container fluid>
+    <b-container fluid>
       <!-- User Interface controls -->
       <b-row>
         <b-col lg="6" class="my-1">
@@ -22,7 +22,9 @@
                 placeholder="Type to Search"
               ></b-form-input>
               <b-input-group-append>
-                <b-button :disabled="!filter" @click="filter = ''">Clear</b-button>
+                <b-button :disabled="!filter" @click="filter = ''"
+                  >Clear</b-button
+                >
               </b-input-group-append>
             </b-input-group>
           </b-form-group>
@@ -35,7 +37,8 @@
             label-align-sm="right"
             label-size="sm"
             description="Leave all unchecked to filter on all data"
-            class="mb-0">
+            class="mb-0"
+          >
             <b-form-checkbox-group v-model="filterOn" class="mt-1">
               <b-form-checkbox value="id">Id</b-form-checkbox>
               <b-form-checkbox value="registerDate">Registered</b-form-checkbox>
@@ -97,7 +100,11 @@
         </template>
 
         <template v-slot:cell(actions)="row">
-          <b-button size="sm" @click="info(row.item, row.index, $event.target)" class="mr-1">
+          <b-button
+            size="sm"
+            @click="info(row.item, row.index, $event.target)"
+            class="mr-1"
+          >
             Show user amount
           </b-button>
         </template>
@@ -105,14 +112,21 @@
         <template v-slot:row-details="row">
           <b-card>
             <ul>
-              <li v-for="(value, key) in row.item" :key="key">{{ key }}: {{ value }}</li>
+              <li v-for="(value, key) in row.item" :key="key">
+                {{ key }}: {{ value }}
+              </li>
             </ul>
           </b-card>
         </template>
       </b-table>
 
       <!-- Info modal -->
-      <b-modal :id="infoModal.id" :title="infoModal.title" ok-only @hide="resetInfoModal">
+      <b-modal
+        :id="infoModal.id"
+        :title="infoModal.title"
+        ok-only
+        @hide="resetInfoModal"
+      >
         <pre>{{ infoModal.content }}</pre>
       </b-modal>
     </b-container>
@@ -127,32 +141,37 @@ export default {
   components: { Admin },
   data() {
     return {
-      items: [
-
-        ],
+      items: [],
       fields: [
-          { key: 'id', label: 'id', sortable: true, sortDirection: 'desc' },
-          { key: 'registerDate', label: 'Registered', sortable: true, class: 'text-center' },
-          { key: 'language', label: 'Language', sortable: true, class: 'text-center'},
-          { key: 'actions', label: 'Actions' }
-        ],
+        { key: "id", label: "id", sortable: true, sortDirection: "desc" },
+        {
+          key: "registerDate",
+          label: "Registered",
+          sortable: true,
+          class: "text-center"
+        },
+        {
+          key: "language",
+          label: "Language",
+          sortable: true,
+          class: "text-center"
+        },
+        { key: "actions", label: "Actions" }
+      ],
       totalRows: 1,
       currentPage: 1,
       perPage: 5,
       pageOptions: [5, 10, 15],
-      sortBy: '',
+      sortBy: "",
       sortDesc: false,
-      sortDirection: 'asc',
+      sortDirection: "asc",
       filter: null,
       filterOn: [],
       infoModal: {
-        id: 'info-modal',
-        title: '',
-        content: ''
-        }
-      
-
-
+        id: "info-modal",
+        title: "",
+        content: ""
+      }
     };
   },
   computed: {
@@ -161,19 +180,22 @@ export default {
       return this.fields
         .filter(f => f.sortable)
         .map(f => {
-          return { text: f.label, value: f.key }
-        })
+          return { text: f.label, value: f.key };
+        });
     }
   },
   mounted() {
     // Set the initial number of items
-    api.getRepositories().then(response=>{
-      this.items= response.data.data
-      this.totalRows = this.items.length
-    }).catch(e=>{
-      this.items=[]
-      this.totalRows = this.items.length
-    })
+    api
+      .getRepositories()
+      .then(response => {
+        this.items = response.data.data;
+        this.totalRows = this.items.length;
+      })
+      .catch(e => {
+        this.items = [];
+        this.totalRows = this.items.length;
+      });
   },
 
   methods: {
@@ -181,25 +203,27 @@ export default {
       this.viewResult = true;
     },
     info(item, index, button) {
-      this.infoModal.title = `Id: ${item.id}`
-      api.getUserAmount(item.id).then(response=>{
-        this.infoModal.content= "User amount: "+response.data.data.userAmount
-      }).catch(e=>{
-        this.infoModal.content="Error in server"
-      }) 
-      this.$root.$emit('bv::show::modal', this.infoModal.id, button)
+      this.infoModal.title = `Id: ${item.id}`;
+      api
+        .getUserAmount(item.id)
+        .then(response => {
+          this.infoModal.content =
+            "User amount: " + response.data.data.userAmount;
+        })
+        .catch(e => {
+          this.infoModal.content = "Error in server";
+        });
+      this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },
     resetInfoModal() {
-      this.infoModal.title = ''
-      this.infoModal.content = ''
+      this.infoModal.title = "";
+      this.infoModal.content = "";
     },
     onFiltered(filteredItems) {
       // Trigger pagination to update the number of buttons/pages due to filtering
-      this.totalRows = filteredItems.length
-      this.currentPage = 1
+      this.totalRows = filteredItems.length;
+      this.currentPage = 1;
     }
-
-
   }
 };
 </script>

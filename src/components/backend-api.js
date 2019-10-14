@@ -25,11 +25,11 @@ export default {
   createUser(firstName, lastName) {
     return AXIOS.post(`/user/` + firstName + "/" + lastName);
   },
-  getUserWithoutID(){
+  getUserWithoutID() {
     return AXIOS.get(`/user`);
   },
-  getFavourites(){
-    return AXIOS.get(`/user/favourites`)
+  getFavourites() {
+    return AXIOS.get(`/user/favourites`);
   },
 
   /*Admin*/
@@ -39,15 +39,13 @@ export default {
   getAnalytics(date) {
     return AXIOS.get(`/admin/analytics?fechaDesde=` + date);
   },
-  getRepositories(){
-    return AXIOS.get(`/admin/repositories`)
+  getRepositories() {
+    return AXIOS.get(`/admin/repositories`);
   },
-  getUserAmount(id){
-    return AXIOS.get(`/admin/repositories/`+id)
+  getUserAmount(id) {
+    return AXIOS.get(`/admin/repositories/` + id);
   },
-  getAllUsers(){
-    return AXIOS.get(`/admin/users`)
+  getAllUsers() {
+    return AXIOS.get(`/admin/users`);
   }
-
-
 };
