@@ -12,7 +12,7 @@
           <b-form-checkbox v-model="checkbox_forks" value="true" unchecked-value="false" class="mb-2 mr-sm-2 mb-sm-0"></b-form-checkbox>
           <label class="mr-sm-2" for="inline-form-custom-select-pref">Fork</label>
           <div v-show="trueCheckbox(checkbox_forks)"> 
-            <b-form-select class="mb-2 mr-sm-2 mb-sm-0" :value="null" :options="{'=':'=', '>':'>', '<':'<'}"
+            <b-form-select class="mb-2 mr-sm-2 mb-sm-0" :value="null" :options="{'':'=', '>':'>', '<':'<'}"
               id="inline-form-custom-select-pref" v-model="selectFork">
                 <template v-slot:first>
                   <option :value='null'>Choose</option>
@@ -36,7 +36,7 @@
           <b-form-checkbox v-model="checkbox_stars" value="true" unchecked-value="false" class="mb-2 mr-sm-2 mb-sm-0"></b-form-checkbox>
           <label class="mr-sm-2" for="inline-form-custom-select-pref">Stars</label>
           <div v-show="trueCheckbox(checkbox_stars)"> 
-            <b-form-select class="mb-2 mr-sm-2 mb-sm-0" :value="null" :options="{'=':'=', '>':'>', '<':'<'}"
+            <b-form-select class="mb-2 mr-sm-2 mb-sm-0" :value="null" :options="{'':'=', '>':'>', '<':'<'}"
             id="inline-form-custom-select-pref" v-model="selectStars">
               <template v-slot:first>
                 <option :value='null'>Choose</option>
@@ -92,7 +92,7 @@
           <b-form-checkbox v-model="checkbox_username" value="true" unchecked-value="false" class="mb-2 mr-sm-2 mb-sm-0"></b-form-checkbox>
           <label class="mr-sm-2" for="inline-form-custom-select-pref">Repo from user</label>
           <div v-show="trueCheckbox(checkbox_username)"> 
-            <b-input id="inline-form-input" placeholder="Name" v-model="username" type="text"></b-input>
+            <b-input id="inline-form-input" placeholder="Username" v-model="username" type="text"></b-input>
             <b-form-invalid-feedback :state="validationText(username)">
               *Enter username
             </b-form-invalid-feedback>
@@ -118,7 +118,9 @@
     <h5>{{stringSearchRepositories}}</h5>
 
     <!--TODO: hacer cuadro de resultado-->
-
+    <br>
+    <h2>{{errors}}</h2>
+    <h5>{{responseSearchRepositories}}</h5>
 
 
   </div>  
@@ -154,6 +156,12 @@ export default {
       stringSearchRepositories:"",
       showMessageErrorForm:false,
       messageErrorForm:"",
+      responseSearchRepositories:{},
+
+      pruebaLogin:{ /*TODO: borrar, esto es solo para probar*/
+          "username":"Username1",
+        	"pass":"pass1"
+        },
     };
   },
 
@@ -252,6 +260,14 @@ export default {
         if(this.validationAllForm()){
           this.generateStringSearchRepositories()
           /* TODO: busqueda de repositorio */
+          console.log("buscando repo")
+          api.searchRepositories(this.stringSearchRepositories).then(response=>{
+            this.responseSearchRepositories=response.data
+            console.log("obtuve resultados")
+          }).catch(e=>{
+            this.errors.push(e)
+            console.log("obtuve error")
+          })
         }else{
           this.showMessageErrorForm=true
           this.messageErrorForm="Wrong fields!!!"
@@ -263,6 +279,14 @@ export default {
   },
   validations: {
     form: {}
+  },
+    mounted() {/*TODO:sacar este login, es solo para probar*/
+    api
+      .login(this.pruebaLogin)
+      .then(response => {
+        console.log("logueado")
+      })
+      .catch(e => {});
   }
 };
 </script>

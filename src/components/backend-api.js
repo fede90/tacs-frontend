@@ -31,6 +31,9 @@ export default {
   getFavourites() {
     return AXIOS.get(`/user/favourites`);
   },
+  searchRepositories(query){
+    return AXIOS.get(`/user/github/repositories?q=`+query)
+  },
 
   /*Admin*/
   getUserByUsername(username) {
