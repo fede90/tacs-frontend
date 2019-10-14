@@ -127,7 +127,7 @@
             header="Common repositories"
             class="text-center"
           >
-            <b-card-text v-for="repo of getRepoCommon()"
+            <b-card-text v-bind:key="repo.id" v-for="repo of getRepoCommon()"
               ><!-- Esto puede marcar error, pero funciona -->
               <em class="font-weight-bold">ID: </em>{{ repo.id }}
               <em class="font-weight-bold">Language: </em>{{ repo.language }}
@@ -140,7 +140,7 @@
             header="Common languages"
             class="text-center"
           >
-            <b-card-text v-for="lang of getLanguageCommon()">{{
+            <b-card-text v-bind:key="lang" v-for="lang of getLanguageCommon()">{{
               /* no quiero poner v-bind:key="lang" porque me tira error en el browser*/
               lang
             }}</b-card-text>
