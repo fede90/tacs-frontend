@@ -44,6 +44,9 @@ export default {
   },
   getUserAmount(id){
     return AXIOS.get(`/admin/repositories/`+id)
+  },
+  getAllUsers(){
+    return AXIOS.get(`/admin/users`)
   }
 
 
