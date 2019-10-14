@@ -4,6 +4,9 @@
     <h1>Favorite repositories</h1>
     <b-container fluid>
       <!-- User Interface controls -->
+      <div v-if="errorMessage">
+        <p>{{ errorMessage }}</p>
+      </div>
       <b-row>
         <b-col lg="6" class="my-1">
           <b-form-group
@@ -171,7 +174,8 @@ export default {
         id: "info-modal",
         title: "",
         content: ""
-      }
+      },
+      errorMessage: ""
     };
   },
   computed: {
@@ -193,6 +197,11 @@ export default {
         this.totalRows = this.items.length;
       })
       .catch(e => {
+        if (e.response.data.message) {
+          this.errorMessage = e.response.data.message;
+        } else {
+          this.errorMessage = e.response.data.data;
+        }
         this.items = [];
         this.totalRows = this.items.length;
       });
@@ -211,7 +220,13 @@ export default {
             "User amount: " + response.data.data.userAmount;
         })
         .catch(e => {
-          this.infoModal.content = "Error in server";
+          if (e.response.data.message) {
+            this.errorMessage = e.response.data.message;
+          } else {
+            this.errorMessage = e.response.data.data;
+          }
+
+          //this.infoModal.content = "Error in server";
         });
       this.$root.$emit("bv::show::modal", this.infoModal.id, button);
     },

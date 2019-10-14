@@ -40,7 +40,9 @@ export default {
     return AXIOS.get(`/admin/analytics?fechaDesde=` + date);
   },
   getRepositories() {
-    return AXIOS.get(`/admin/repositories`);
+    return AXIOS.get(`/admin/repositories`).then(response => {
+      return response;
+    });
   },
   getUserAmount(id) {
     return AXIOS.get(`/admin/repositories/` + id);
