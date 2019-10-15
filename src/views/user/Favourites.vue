@@ -1,19 +1,28 @@
 <template>
   <div class="favourites">
-    <User />
     <h1>Favourites</h1>
-    <b-button variant="primary">New favourite list</b-button>
-
-    <!--Muestreo de las listas de favoritos, en formato de card-->
+  <div>
+    <b-col sm="6">
+    <b-input-group class="mt-3">
+      <b-form-input v-model="favourite.name" placeholder="New favourite name"></b-form-input>
+      <b-input-group-append>
+        <b-button variant="success" @click="newFav">Add favourite list</b-button>
+      </b-input-group-append>
+    </b-input-group>
+    </b-col>
+  </div>
+    
+    
       <b-card-group columns > 
         <b-card
           bg-variant="secondary"
           text-variant="white"
           :header="fav.name"
           class="text-center mt-3"
-          v-for="fav of responseUserFavourite.data.contents"
+          v-bind:key="fav.id"
+          v-for="fav of responseUserFavourite"
         >
-          <b-card-text v-for="repo of fav.contents"> <!--Esto puede marcar error, pero funciona-->
+          <b-card-text v-bind:key="repo.id" v-for="repo of fav.contents">
             <em class="font-weight-bold">ID: </em>{{repo.id}}
           </b-card-text>
           <b-button variant="primary" v-b-modal.modal-1 @click="selectFav(fav)">Edit</b-button>
@@ -23,6 +32,12 @@
           <p class="my-4">{{favSelected.name}}</p>
         </b-modal>
       </b-card-group>
+
+      <div v-if="errorMessage">
+        <b-alert variant="danger" show>
+            {{errorMessage}}
+          </b-alert>
+      </div>
   </div>
 </template>
 
@@ -41,10 +56,7 @@
         message: "",
         form: {},
         show: true,
-        pruebaLogin:{ /*TODO: borrar, esto es solo para probar*/
-          "username":"Username1",
-        	"pass":"pass1"
-        },
+        errorMessage: "",
         responseUserFavourite:{
           data:{
             contents:[
@@ -59,21 +71,12 @@
             ]
           }
         },
-        favSelected:{}
+        favSelected:{},
+        favourite: {}
       };
     },
 
     methods: {
-      repositories() {
-        var vm = this;
-        api
-          .repositories(this.form)
-          .then(response => {})
-          .catch(e => {
-            this.message = e.response.data.msg;
-            this.errors.push(e.response.data);
-          });
-      },
       onReset(evt) {
         evt.preventDefault();
         this.form = "";
@@ -82,33 +85,36 @@
           this.show = true;
         });
       },
-
-      /**/
       selectFav(fav){
         this.favSelected=fav
-      }
+      },
+      newFav(){
+        var vm = this;
+        api.newFav(this.favourite)
+          .then(response =>{
+            vm.findFavourites();            
+          })
+          .catch(e => {
+            vm.errorMessage = e.response.data.message;
+          });
 
+      },
+      findFavourites(){
+        api.getUserFavourites()
+        .then(response => {
+          this.responseUserFavourite = response.data.data;
+        })
+        .catch(e => {
+          this.errorMessage = e.response.data;
+          this.responseUserFavourite = e; /* TODO: hacer algo con el error */
+        });
+      }
     },
   validations: {
     form: {}
   },
   mounted() {
-    api
-      .login(this.pruebaLogin)
-      .then(response => {
-        /*TODO:sacar este login, es solo para probar*/
-
-        api
-          .getUserWithoutID()
-          .then(response => {
-            /* TODO: este api.getUserWithoutID si va, no borrar */
-            this.responseUserFavourite = response.data;
-          })
-          .catch(e => {
-            this.responseUserFavourite = e; /* TODO: hacer algo con el error */
-          });
-      })
-      .catch(e => {});
+    this.findFavourites();
   }
-};
+}
 </script>
