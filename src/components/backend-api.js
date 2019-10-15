@@ -25,11 +25,14 @@ export default {
   createUser(firstName, lastName) {
     return AXIOS.post(`/user/` + firstName + "/" + lastName);
   },
-  getUserWithoutID() {
-    return AXIOS.get(`/user`);
+  getUserFavourites() {
+    return AXIOS.get(`/user/favourites`);
   },
   getFavourites() {
     return AXIOS.get(`/user/favourites`);
+  },
+  newFav(fav) {
+    return AXIOS.post(`/user/favourites`, fav);
   },
   searchRepositories(query){
     return AXIOS.get(`/user/github/repositories?q=`+query)
