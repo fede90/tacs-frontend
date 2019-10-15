@@ -1,29 +1,33 @@
 <template>
   <b-navbar toggleable="lg" type="dark" variant="info">
-    <b-navbar-brand href="#">TACS</b-navbar-brand>
+    <b-navbar-brand href="/home">TACS</b-navbar-brand>
 
     <b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
 
     <b-collapse id="nav-collapse" is-nav>
       <b-navbar-nav>
-        <b-nav-item v-bind:to="'/admin/userdata'" v-if="userLoged"
+        <b-nav-item v-bind:to="'/admin/userdata'" v-if="userLoged && isAdmin"
           >User Data</b-nav-item
         >
-        <b-nav-item v-bind:to="'/admin/repofav'" v-if="userLoged"
+        <b-nav-item v-bind:to="'/admin/repofav'" v-if="userLoged && isAdmin"
           >Repo Fav</b-nav-item
         >
         <b-nav-item
           v-bind:to="'/admin/registered-repositories'"
-          v-if="userLoged"
+          v-if="userLoged && isAdmin"
           >Repos Registered</b-nav-item
         >
-        <b-nav-item v-bind:to="'/admin/repo-lang-common'" v-if="userLoged"
+        <b-nav-item v-bind:to="'/admin/repo-lang-common'" v-if="userLoged && isAdmin"
           >Repo Lang</b-nav-item
         >
-        <b-nav-item v-bind:to="'home'" v-if="userLoged">Home</b-nav-item>
-        <b-nav-item v-bind:to="'home'" v-if="userLoged">Users</b-nav-item>
-        <b-nav-item v-bind:to="'signup'" v-if="!userLoged">Signup</b-nav-item>
-        <b-nav-item v-bind:to="'signin'" v-if="!userLoged">Signin</b-nav-item>
+        <b-nav-item v-bind:to="'/user/repositories'" v-if="userLoged && !isAdmin"
+          >User repositories</b-nav-item
+        >
+        <b-nav-item v-bind:to="'/user/favourites'" v-if="userLoged && !isAdmin"
+          >User Favourites</b-nav-item
+        >
+        <b-nav-item v-bind:to="'/signup'" v-if="!userLoged">Signup</b-nav-item>
+        <b-nav-item v-bind:to="'/signin'" v-if="!userLoged">Signin</b-nav-item>
       </b-navbar-nav>
 
       <!-- Right aligned nav items -->
@@ -58,16 +62,20 @@ export default {
       userLoged: false,
       errors: []
     };
-  },
+  }, 
   created() {
-    this.userLoged = this.$cookies.get("token");
+    var token = this.$cookies.get("token");
+    if(token){
+      this.userLoged = true;
+      this.isAdmin = token.adminPrivilege;
+    }
   },
   methods: {
     logout() {
       var vm = this;
       vm.$cookies.remove("token");
       this.userLoged = false;
-      vm.$router.push("Home");
+      vm.$router.push({ path: '/home' });
     }
   }
 };
