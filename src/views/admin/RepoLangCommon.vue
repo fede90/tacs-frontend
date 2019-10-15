@@ -1,6 +1,5 @@
 <template>
   <div class="repo-lang-common">
-    <Admin />
     <h1>Repositories and languages in common</h1>
 
     <!-- TODO: ver si definir filtro de busqueda o dejarlo asi, que solo se busque a los usuarios por username -->

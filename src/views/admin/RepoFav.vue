@@ -1,6 +1,5 @@
 <template>
   <div class="repofav">
-    <Admin />
     <h1>Favorite repositories</h1>
     <b-container fluid>
       <!-- User Interface controls -->

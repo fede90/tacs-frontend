@@ -1,6 +1,5 @@
 <template>
   <div class="registeredrepo">
-    <Admin />
     <h1>Registered Repositories</h1>
 
     <br />

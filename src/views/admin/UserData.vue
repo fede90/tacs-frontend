@@ -1,6 +1,5 @@
 <template>
   <div class="user-data">
-    <Admin />
     <h1>User data</h1>
     <!-- TODO: ver si se deberia definir un filtro de busqueda, como el de los repositorios -->
     <!-- Busqueda de usuario -->
@@ -128,10 +127,10 @@ export default {
       /* Esto es para la tabla de usuarios, ver si va a estar*/
       fields: [
         { key: "username", sortable: true },
-        { key: "favourite_size", sortable: true },
-        { key: "repositorie_size", sortable: true },
-        { key: "last_access", sortable: true },
-        { key: "language", sortable: true }
+        { key: "favourite_count", sortable: true },
+        { key: "lastAccessTime", sortable: true },
+        { key: "languages", sortable: true },
+        { key: "adminPrivilege", sortable: true },        
       ],
       sortBy: "age",
       sortDesc: false
@@ -143,6 +142,7 @@ export default {
       api
         .getUserByUsername(this.searchUsername)
         .then(response => {
+          vm.errorMessage = "";
           this.responseUser = response.data.data;
           this.oneUser = true;
           this.allUser = false;
