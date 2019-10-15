@@ -49,13 +49,8 @@
 
 <script>
 import api from "@/components/backend-api";
-import User from "@/components/user/User.vue";
-import FormGroup from "@/components/FormGroup";
-import Alert from "@/components/alert/Alert";
-import { required } from "vuelidate/lib/validators";
 export default {
   name: "favourites",
-  components: { FormGroup, Alert, User },
   data() {
     return {
       errors: [],
