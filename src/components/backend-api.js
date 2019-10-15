@@ -34,8 +34,8 @@ export default {
   newFav(fav) {
     return AXIOS.post(`/user/favourites`, fav);
   },
-  searchRepositories(query){
-    return AXIOS.get(`/user/github/repositories?q=`+query)
+  searchRepositories(query) {
+    return AXIOS.get(`/user/github/repositories?q=` + query);
   },
 
   /*Admin*/

@@ -17,10 +17,14 @@
           v-if="userLoged && isAdmin"
           >Repos Registered</b-nav-item
         >
-        <b-nav-item v-bind:to="'/admin/repo-lang-common'" v-if="userLoged && isAdmin"
+        <b-nav-item
+          v-bind:to="'/admin/repo-lang-common'"
+          v-if="userLoged && isAdmin"
           >Repo Lang</b-nav-item
         >
-        <b-nav-item v-bind:to="'/user/repositories'" v-if="userLoged && !isAdmin"
+        <b-nav-item
+          v-bind:to="'/user/repositories'"
+          v-if="userLoged && !isAdmin"
           >User repositories</b-nav-item
         >
         <b-nav-item v-bind:to="'/user/favourites'" v-if="userLoged && !isAdmin"
@@ -62,10 +66,10 @@ export default {
       userLoged: false,
       errors: []
     };
-  }, 
+  },
   created() {
     var token = this.$cookies.get("token");
-    if(token){
+    if (token) {
       this.userLoged = true;
       this.isAdmin = token.adminPrivilege;
     }
@@ -75,7 +79,7 @@ export default {
       var vm = this;
       vm.$cookies.remove("token");
       this.userLoged = false;
-      vm.$router.push({ path: '/home' });
+      vm.$router.push({ path: "/home" });
     }
   }
 };
