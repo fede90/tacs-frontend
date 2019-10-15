@@ -105,7 +105,7 @@ export default {
         .login(this.form)
         .then(response => {
           vm.response = response.data;
-          vm.$cookies.set("token", response.headers.authorization);
+          vm.$cookies.set("token", response.data.data);
           vm.$router.push("Home");
         })
         .catch(e => {
