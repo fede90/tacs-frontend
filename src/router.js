@@ -18,7 +18,7 @@ const router = new Router({
     {
       path: "/",
       name: "signin",
-      component: () => import("./views/Home.vue")
+      component: () => import("./views/Home.vue"),
     },
     {
       path: "/home",
@@ -77,12 +77,14 @@ const router = new Router({
     {
       path: "/user/favourites",
       name: "favourites",
-      component: () => import("./views/user/Favourites.vue")
+      component: () => import("./views/user/Favourites.vue"),
+      meta: { Auth: true, title: "Favourites" }
     },
     {
       path: "/user/repositories",
       name: "repositories",
-      component: () => import("./views/user/Repositories.vue")
+      component: () => import("./views/user/Repositories.vue"),
+      meta: { Auth: true, title: "Repositories" }
     }
   ]
 });
