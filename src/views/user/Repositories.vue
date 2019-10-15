@@ -1,6 +1,5 @@
 <template>
   <div class="repositories">
-    <User />
     <h1>Repositories</h1>
     <br>
     <!--Formulario de busqueda-->
@@ -107,7 +106,7 @@
     </b-container><!--Fin formulario de busqueda-->
 
     <!--Mostrar error si ingresaron datos no validos-->
-    <b-container v-show="showMessageErrorForm">
+    <b-container v-if="messageErrorForm">
         <b-row align-h="center">
           <b-alert variant="danger" show>
             {{messageErrorForm}}
@@ -115,13 +114,28 @@
         </b-row>
     </b-container>
 
-    <h5>{{stringSearchRepositories}}</h5>
+    <template>
+      <b-row align-h="center" v-if="repos.length">
+        <b-alert variant="warning" show>
+          Total repos: {{repos.length}}
+        </b-alert>
+      </b-row>
+      <div>
+        <b-table striped hover :items="repos" :fields="fields">
+          <template v-slot:cell(id)="data">
+           <a href=""> {{ data.item.id}}</a>
+          </template>
 
-    <!--TODO: hacer cuadro de resultado-->
+        </b-table>
+      </div>
+    </template>
     <br>
-    <h2>{{errors}}</h2>
-    <h5>{{responseSearchRepositories}}</h5>
-
+    <div v-if="message">
+     <b-alert variant="danger" show> {{message}}</b-alert>
+    </div>
+    <div v-else>
+      <h5>{{responseSearchRepositories}}</h5>
+    </div>
 
   </div>  
 </template>
@@ -156,26 +170,43 @@ export default {
       stringSearchRepositories:"",
       showMessageErrorForm:false,
       messageErrorForm:"",
-      responseSearchRepositories:{},
-
-      pruebaLogin:{ /*TODO: borrar, esto es solo para probar*/
-          "username":"Username1",
-        	"pass":"pass1"
-        },
+      responseSearchRepositories:"",
+      repos:[],
+      fields: [
+          {
+            key: 'id',
+            sortable: true
+          },
+          {
+            key: 'name',
+            sortable: true
+          },
+          {
+            key: 'languaje',
+            sortable: true
+          },
+          {
+            key: 'forks_count',
+            sortable: true
+          },
+          {
+            key: 'stargazers_count',
+            sortable: true
+          },
+          {
+            key: 'open_issues_count',
+            sortable: true
+          },
+          {
+            key: 'description',
+            sortable: false
+          },
+          
+        ],
     };
   },
 
   methods: {
-    repositories() {
-      var vm = this;
-      api
-        .repositories(this.form)
-        .then(response => {})
-        .catch(e => {
-          this.message = e.response.data.msg;
-          this.errors.push(e.response.data);
-        });
-    },
     onSubmit(evt) {
       evt.preventDefault();
       this.$v.form.$touch();
@@ -233,7 +264,7 @@ export default {
         if(this.stringSearchRepositories.length>0){ /* hago este length porque asi puedo poner el && si es que hay otro parametro de busqueda */
           this.stringSearchRepositories=this.stringSearchRepositories+'+'
         }
-        this.stringSearchRepositories=this.stringSearchRepositories+this.name+' in:name'
+        this.stringSearchRepositories=this.stringSearchRepositories+this.name
       }
       if(this.trueCheckbox(this.checkbox_username)){
         if(this.stringSearchRepositories.length>0){ /* hago este length porque asi puedo poner el && si es que hay otro parametro de busqueda */
@@ -251,6 +282,7 @@ export default {
     },
 
     searchRepositories(){
+      var vm = this;
       this.showMessageErrorForm=false
       this.messageErrorForm=""
       if(this.allCheckboxFalse()){
@@ -259,14 +291,16 @@ export default {
       }else{
         if(this.validationAllForm()){
           this.generateStringSearchRepositories()
-          /* TODO: busqueda de repositorio */
-          console.log("buscando repo")
           api.searchRepositories(this.stringSearchRepositories).then(response=>{
-            this.responseSearchRepositories=response.data
-            console.log("obtuve resultados")
+            this.repos=response.data.data.items;
           }).catch(e=>{
-            this.errors.push(e)
-            console.log("obtuve error")
+            if(e.response.data.rateReset){
+              var time = e.response.data.rateReset;
+              var finalTime = new Date(time*1000);
+              vm.message = e.response.data.message + " Wait until: " + finalTime;
+            }else{
+              vm.message = e.response.data.data;
+            }
           })
         }else{
           this.showMessageErrorForm=true
@@ -280,13 +314,8 @@ export default {
   validations: {
     form: {}
   },
-    mounted() {/*TODO:sacar este login, es solo para probar*/
-    api
-      .login(this.pruebaLogin)
-      .then(response => {
-        console.log("logueado")
-      })
-      .catch(e => {});
+    mounted() {
+
   }
 };
 </script>
